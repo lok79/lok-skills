@@ -6,7 +6,7 @@ description: 当用户要求生成图片、画图、文生图（"生成一张…
 # 文生图（gen-image）
 
 ```bash
-python3 ~/.zcode/skills/gen-image/generate.py "<描述>" [--provider aihubmix|bigmodel] [--model X] [--size WxH] [--quality low|medium|high|xhigh|max|auto] [--out 路径]
+python3 ~/.agents/skills/gen-image/generate.py "<描述>" [--provider aihubmix|bigmodel] [--model X] [--size WxH] [--quality low|medium|high|xhigh|max|auto] [--out 路径]
 ```
 
 图片保存到 `~/Pictures/zcode-images/<provider>-<时间戳>.png`，脚本会打印路径和所用模型。
@@ -33,7 +33,7 @@ python3 ~/.zcode/skills/gen-image/generate.py "<描述>" [--provider aihubmix|bi
 1. 运行脚本，拿到打印出的图片路径
 2. **在对话里展示图片（默认要做）**：
    ```bash
-   python3 ~/.zcode/skills/gen-image/show.py --dir "<会话可视化目录>" <图片路径> [更多图片...]
+   python3 ~/.agents/skills/gen-image/show.py --dir "<会话可视化目录>" <图片路径> [更多图片...]
    ```
    `<会话可视化目录>` 取自系统提示中 "Writable, durable visualization directory for this session" 的路径（每次会话不同，找不到该字段说明当前端不支持内联渲染）。
    命令会打印片段的绝对路径，在**最终回复里单独一行**按此格式引用（不加反引号、不加代码块、不写成 Markdown 链接）：

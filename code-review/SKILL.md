@@ -39,6 +39,7 @@ On top of whatever the repo documents, the Standards axis always carries the **s
 
 - **The repo overrides.** A documented repo standard always wins; where it endorses something the baseline would flag, suppress the smell.
 - **Always a judgement call.** Each smell is a labelled heuristic ("possible Feature Envy"), never a hard violation. Like any standard here, skip anything tooling already enforces.
+- **Test files are exempt.** Unit tests, stub tests, and evidence scripts deliver their value when their assertions are right and they run green — never report naming/abstraction/duplication smells or any beautification findings on them; report a test file only when an assertion is wrong or the test itself is broken.
 
 Each smell reads *what it is* → *how to fix*; match it against the diff:
 

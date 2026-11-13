@@ -30,7 +30,7 @@ The route most work travels. You have an idea and want it built.
 
    When the work goes up as a pull request, **`/pr`** shapes the body: the smallest visual that shows the change, before/after evidence that it works, and a one-way or two-way door call. It's model-invoked, so the agent reaches for it whenever it writes a PR.
 
-   Verification of a build is whatever **`/tdd`** and **`/code-review`** produce inside **`/implement`** / **`/implement-spec`** — `/ship` adds no acceptance step of its own and opens no pages. There is no standing acceptance mechanism; for a heavier, evidence-bearing audit, ask for one explicitly.
+   Verification is two-layered. Inside **`/implement`** / **`/implement-spec`**, it's whatever **`/tdd`** and **`/code-review`** produce. Then **`/accept`** closes out **`/ship`** as its last phase: HTTP replay against the real environment — real backend, real database, real request shapes — with evidence landed as text in the spec's Comments; items HTTP can't reach (pure UI, real-device paths) are recorded as 「无可自动化验收项」, never force-fitted. **`/accept`** also runs standalone, to backfill verification for a historical spec (when run alone it lists candidate specs and asks which one).
 
 4. **`/retro`** closes the loop. After a build, and especially one that went sideways, it looks back over the session and suggests changes to the agent's **environment**, not the code: navigation pointers, automated checks, the coding standards `/code-review` enforces, steering files, tooling. Mechanical mistakes become deterministic checks; judgement calls become coding standards. The next build then starts from a better environment.
 

@@ -7,7 +7,9 @@ Implement the work described by the user in the spec or tickets. Machinery they 
 
 If the user passes a ticket reference, fetch it from the issue tracker and state its title before starting. If the reference is ambiguous, ask.
 
-Call the Skill tool with "tdd" at pre-agreed seams, by default. Skip only when the change carries no observable behavior (pure copy, comments, configuration values) — and if you skip, state that reason in the final report. "No test infrastructure" is not a skip reason: test at the highest seam the runtime allows (for backend changes, the HTTP layer asserting the response body).
+Call the Skill tool with "tdd" at pre-agreed seams, by default. Skip only when the change carries no observable behavior (pure copy, comments, configuration values) — and if you skip, state that reason in the final report. "No test infrastructure" is not a skip reason: test at the highest seam the runtime allows (for backend changes, the HTTP layer asserting the response body; for frontend page behavior, a one-off headless Playwright script asserting DOM and network — never drive a visible browser by clicking, never take screenshots).
+
+If a Skill call fails with a name error (`ambiguous for subagent`, `not allowed for subagent`), don't retry with another spelling of the name — Read the skill file directly and follow it: `/Users/lok/.agents/skills/<skill-name>/SKILL.md`.
 
 Run typechecking regularly, single test files regularly, and the full test suite once at the end.
 
