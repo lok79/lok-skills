@@ -9,13 +9,16 @@
 - accept
 - computer-use
 - ego-browser
+- fhip
 - gen-image
 - orca-cli
 - orchestration
 - probe
 - ship
 - show-me
+- survey
 - to-plan
+- verify
 - zhip
 
 ## 改造过（与上游不同，refresh 前先看 diff，保留本地版）
@@ -50,7 +53,7 @@
 - 消费面 1：`to-plan` 运行时 Read `dist/skills/writing-plans/SKILL.md` 当 plan 格式规范。升级 diff 触及 writing-plans 时，复查 to-plan 的 override 清单（语言/落点/头部/任务序）是否仍成立
 - 消费面 2：执行端安装 = 复制 4 个裁剪子目录（`executing-plans`、`test-driven-development`、`verification-before-completion`、`systematic-debugging`）到执行端自己的 skills 目录。**不用任何端的 marketplace/plugin 安装**——那会装全套 + using-superpowers 强制网，违背裁剪原则
 - 执行端合格判据：skills 目录机制 / 能跑 shell / 同机文件系统 / 便宜档位 / fresh 会话。满足即合格，不锁定产品
-- `zhip` 引用 ship 的节名锚点（Preflight / Route / Prime directive / Accept / Deliver / Failure budgets / Stopping）：ship 改版重排这些节名时，同步检查 zhip 的引用
+- `zhip` 引用 ship 的节名锚点（Preflight / Route / Prime directive / Accept / Deliver / Failure budgets / Stopping）；`fhip` 引用同批锚点 + Isolation / Run / Narration（其 Accept 被 verify 覆写）：ship 改版重排这些节名时，同步检查 zhip 和 fhip 的引用
 
 ## 刷新流程（替代旧的"备份→全目录覆盖"）
 

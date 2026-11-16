@@ -11,7 +11,7 @@ The issue tracker and triage label vocabulary should have been provided to you. 
 
 1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the spec, and respect any ADRs in the area you're touching.
 
-2. Sketch out the seams at which you're going to test the feature: the highest seam. Backend changes default to the HTTP seam (integration test asserting the response body); the unit seam is for self-contained logic only. "No test infrastructure" is not a reason to go lower. The fewer seams across the codebase, the better — the ideal number is one.
+2. Sketch out the seams at which you're going to test the feature: the highest seam. The default is the boundary where the user's data crosses into the code — for an HTTP service the HTTP seam (integration test asserting the response body), for a CLI argv → stdout/exit code, for a library the public API; the unit seam is for self-contained logic only. "No test infrastructure" is not a reason to go lower. The fewer seams across the codebase, the better — the ideal number is one.
 
 Check with the user that these seams match their expectations.
 

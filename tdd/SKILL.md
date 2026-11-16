@@ -23,7 +23,7 @@ A **seam** is the public boundary you test at: the interface where you observe b
 
 **Pick the highest seam that stays cheap.** The lower the seam, the less of the chain each assertion covers — a unit test on a data mapper proves the SQL condition but says nothing about whether the field survives a VO conversion, the controller wiring, or serialization. Any of those upper layers can drop the behavior while every lower-layer test stays green. Default to the seam where the user's data crosses the boundary:
 
-- **Backend: the HTTP seam** (`MockMvc` / `TestRestTemplate`-style integration test asserting the response body). Default for any change that adds or alters a field, filter, or endpoint — not an optional upgrade.
+- **The boundary seam**: where the user's data crosses into the code — for an HTTP service, the HTTP seam (an in-process integration test asserting the response body); for a CLI, argv → stdout/exit code; for a library, the public API. Default for any change that adds or alters observable behavior at that boundary — not an optional upgrade.
 - **Unit seam** only for self-contained logic (algorithms, parsers, pure utilities) where an integration seam adds cost but no extra coverage.
 
 "No test infrastructure" is not a reason to go lower. When the framework ships test scaffolding (base test classes, test configuration), standing up the first high-seam test is part of the change; later changes extend it.
