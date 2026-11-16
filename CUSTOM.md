@@ -15,6 +15,8 @@
 - probe
 - ship
 - show-me
+- to-plan
+- zhip
 
 ## 改造过（与上游不同，refresh 前先看 diff，保留本地版）
 
@@ -41,6 +43,14 @@
   scaffold-exercises, setup-pre-commit, setup-ts-deep-modules, teach,
   to-questionnaire, triage, wait-what, wizard,
   writing-beats, writing-for-agents, writing-fragments, writing-shape
+
+## superpowers-dist（obra/superpowers 本机母版，zhip/to-plan 的外部依赖）
+
+- `~/.agents/superpowers-dist/` = obra/superpowers 的 git clone（保留 git）；升级 = `git pull` 后 `git diff HEAD@{1}` 看上游变化
+- 消费面 1：`to-plan` 运行时 Read `dist/skills/writing-plans/SKILL.md` 当 plan 格式规范。升级 diff 触及 writing-plans 时，复查 to-plan 的 override 清单（语言/落点/头部/任务序）是否仍成立
+- 消费面 2：执行端安装 = 复制 4 个裁剪子目录（`executing-plans`、`test-driven-development`、`verification-before-completion`、`systematic-debugging`）到执行端自己的 skills 目录。**不用任何端的 marketplace/plugin 安装**——那会装全套 + using-superpowers 强制网，违背裁剪原则
+- 执行端合格判据：skills 目录机制 / 能跑 shell / 同机文件系统 / 便宜档位 / fresh 会话。满足即合格，不锁定产品
+- `zhip` 引用 ship 的节名锚点（Preflight / Route / Prime directive / Accept / Deliver / Failure budgets / Stopping）：ship 改版重排这些节名时，同步检查 zhip 的引用
 
 ## 刷新流程（替代旧的"备份→全目录覆盖"）
 

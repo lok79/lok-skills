@@ -7,4 +7,4 @@ Call the Skill tool twice, for "grilling" and "domain-modeling".
 
 ## Closing the session
 
-When the grilling reaches confirmed shared understanding, close it there: state that clarification is final, tell the user `/ship` will now run the build end-to-end, and stop. Do not start `/to-spec`, `/to-tickets`, or any implementation on your own — `/ship` is the only ignition for post-clarification work. If the user explicitly invokes a specific skill instead, obey that.
+When the grilling reaches confirmed shared understanding, close it there: state that clarification is final, tell the user `/ship` (or `/zhip`, the delegated variant) will now run the build end-to-end, and stop. Do not start `/to-spec`, `/to-tickets`, or any implementation on your own — `/ship` and `/zhip` are the only ignitions for post-clarification work. If the user explicitly invokes a specific skill instead, obey that.
