@@ -14,6 +14,7 @@
 - **无 DB / 无登录表 / 无临时凭证行机制**。"凭证"= agent 端点配置：claude 走 `~/.claude/settings.json` 的 env（`ANTHROPIC_BASE_URL`/`ANTHROPIC_AUTH_TOKEN`，智谱兼容端点）；zcode 走自身配置。
 - Orca structured chat 面板要求 agent 配置**带上 env 端点**；spike 实证：launch 未带 env（agentEnv 空）→ `notSignedIn`。降级序：现有端点配置 → 无更下层（不写任何凭证存储）。
 - 本 profile 不写凭证；verify 只读端点配置存在性，不打印 token 值。
+- 面板/端点/底座工具约束的**单一来源**见 `docs/agents/orca-seams.md`「约束」；此处仅记 spike 实证（notSignedIn 当 launch 未带 env）。
 
 ## 缝登记
 

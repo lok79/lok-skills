@@ -36,7 +36,7 @@ trivial（纯内容）/ light（单会话）/ standard（多会话跨层）/ way
 
 - **前段一体**：grill→to-spec→to-tickets 在**本会话同一底座+模型**不间断上下文完成（light 延伸到 pimplement）。
 - **trivial**：协调者自己改+直接看；**无 review**；**accept 跳过**；commit+短报告。
-- **light**：协调者本会话 call `pimplement`（tdd-only）；**Route 时趁澄清新鲜写 acceptance plan.md（`.scratch/<feature>/acceptance-plan.md`）**供 accept 读；完成后派**一个独立 review 面板**（§5）。
+- **light**：协调者本会话 call `pimplement`（tdd-only）；**Route 时趁澄清新鲜写 acceptance plan.md（`.scratch/<feature>/acceptance-plan.md`，须带验收断言）**供 accept 读；完成后派**一个独立 review 面板**（§5）。
 - **standard**：协调者 `run-create` → `task-create --deps` 建 DAG → `task-list --ready` → 并行 `worker-start --task <id> --agent <base> --model <model>`（按 `docs/agents/orca-seams.md` 缝位配置）派**票面板工人**跑 `pimplement`；wake 推进 frontier。
 
 面板与模型路由约束（structured chat=Chat|CLI 设置+env 端点、zcode `--model` 硬拒及绕法、accept 底座工具要求）**单一来源见 `docs/agents/orca-seams.md`「模型路由/约束」**，不在此复述。
@@ -44,7 +44,7 @@ trivial（纯内容）/ light（单会话）/ standard（多会话跨层）/ way
 ## 5. 外置缝（review / accept / retro）
 
 - **code-review**：standard=**全部票落地 integration 后 ONE 次** integration review 面板（call 原 `code-review`），findings 派**单个 fix 工人**修；light=pimplement 后一次 review 面板。≤2 轮。
-- **accept**：独立面板工人 call 原 `accept`（或按 acceptance profile 用 `verify`），读 spec（standard）/ Route 写的 acceptance-plan.md（light）；真环境验收；≤2 轮修复。底座工具约束见 `docs/agents/orca-seams.md`。
+- **accept**：独立面板工人 call 原 `accept`（或按 acceptance profile 用 `verify`），**把 spec 路径（standard）/ Route 写的 acceptance-plan.md 路径（light）作为 accept 的 spec 输入传入**（plan 须带验收断言）；真环境验收；≤2 轮修复。底座工具约束见 `docs/agents/orca-seams.md`。
 - **retro**：可选面板，call 原 `retro`。
 
 ## 6. 人在环
