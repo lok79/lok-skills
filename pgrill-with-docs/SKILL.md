@@ -37,9 +37,9 @@ trivial（纯内容）/ light（单会话）/ standard（多会话跨层）/ way
 - **前段一体**：grill→to-spec→to-tickets 在**本会话同一底座+模型**不间断上下文完成（light 延伸到 pimplement）。
 - **trivial**：协调者自己改+直接看；**无 review**；**accept 跳过**；commit+短报告。
 - **light**：协调者本会话 call `pimplement`（tdd-only）；**Route 时趁澄清新鲜写 acceptance plan.md（`.scratch/<feature>/acceptance-plan.md`，须带验收断言）**供 accept 读；完成后派**一个独立 review 面板**（§5）。
-- **standard**：协调者 `run-create` → `task-create --deps` 建 DAG → `task-list --ready` → 并行 `worker-start --task <id> --agent <base> --model <model> --effort <effort>`（三元组按 `docs/agents/orca-seams.md` 缝位配置；zcode 缝不传 --model/--effort）派**票面板工人**跑 `pimplement`；wake 推进 frontier。
+- **standard**：协调者 `run-create` → `task-create --deps` 建 DAG → `task-list --ready` → 并行 `terminal create --command '<profile wrapper> --model <model> --effort <effort>' --worktree new-top-level --repo …` 起工人终端，再 `worker-start --task <id> --terminal <handle>` 收编（--model/--effort 走 wrapper 命令行，因 Orca --model 不与 --terminal 同用；三元组按 `docs/agents/orca-seams.md`）派**票面板工人**跑 `pimplement`；wake 推进 frontier。
 
-面板与模型路由约束（structured chat=Chat|CLI 设置+env 端点、zcode `--model` 硬拒及绕法、accept 底座工具要求）**单一来源见 `docs/agents/orca-seams.md`「模型路由/约束」**，不在此复述。当前底座统一 **claude、terminal 面**（chat 面需官方账号）；跨百炼/智谱两家端点靠**派票前按缝位 profile 往 worker worktree 写项目级 `.claude/settings.json` env** 实现（profile 端点/token 源见 orca-seams「profiles」），零新增常驻服务。
+面板与模型路由约束（structured chat=Chat|CLI 设置+env 端点、zcode `--model` 硬拒及绕法、accept 底座工具要求）**单一来源见 `docs/agents/orca-seams.md`「模型路由/约束」**，不在此复述。当前底座统一 **claude、terminal 面**（chat 面需官方账号）；跨两家端点靠 **env 前缀 wrapper 启动**（`launchers/run-zhipu.sh`/`run-bailian.sh`，覆盖 Orca 桌面代理 base_url）+ **显式 --model**（Orca 置空默认模型 env）；项目级 settings 无效（被 Orca 进程 env 压过），勿用。
 
 ## 5. 外置缝（review / accept / retro）
 
