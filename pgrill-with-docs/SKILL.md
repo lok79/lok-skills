@@ -7,7 +7,7 @@ description: "Orca orchestration entry + coordinator, parallel to grill-with-doc
 
 matt 链的 Orca 编排平行入口：**一个技能承担澄清 + 协调 + 派票 + Deliver**。原 `grill-with-docs` / `ship` / `implement` / `implement-spec` / `accept` 一字不改、日常照用；本技能只读组合它们。新族源仅 `~/.agents/skills`、不软链。
 
-遵循 ship 的 **Prime directive**（下游技能会问的确认都由你决、why 记录到用户事后会审的地方）、**Failure budgets**、**Stopping**、**Deliver**。术语见 GLOSSARY.md（协调者/缝/前段一体/面板工人/tdd-only 变体/integration review/派票/决策门/底座/缝位配置/平行入口）；架构权衡见 docs/adr/0001。
+遵循 ship 的 **Prime directive**（下游技能会问的确认都由你决、why 记录到用户事后会审的地方）、**Failure budgets**、**Stopping**、**Deliver**。术语见 `GLOSSARY.md`（协调者/缝/前段一体/面板工人/tdd-only 变体/integration review/派票/决策门/底座/缝位配置/平行入口）；架构权衡见 `docs/adr/0001-orca-orchestration-parallel-family.md`。
 
 ## 0. 载入 Orca 指南
 
@@ -28,20 +28,24 @@ matt 链的 Orca 编排平行入口：**一个技能承担澄清 + 协调 + 派�
 
 trivial（纯内容）/ light（单会话）/ standard（多会话跨层）/ wayfinder-scale → refuse 推荐 wayfinder。真 torn → ask-matt。
 
+## 3b. 隔离（ship Isolation 照搬）
+
+每 run 一个 worktree、一个分支（本 run 命名空间）；**trivial/light/standard 一律**在 run worktree 干活；salvage gitignored 本地（`.scratch/` 等）进 worktree；不碰非本 run 创建的 worktree/分支；主 checkout 只由 Deliver 的最终 merge 触碰。
+
 ## 4. 前段一体 + 实现
 
 - **前段一体**：grill→to-spec→to-tickets 在**本会话同一底座+模型**不间断上下文完成（light 延伸到 pimplement）。
 - **trivial**：协调者自己改+直接看；**无 review**；**accept 跳过**；commit+短报告。
-- **light**：协调者本会话 call `pimplement`（tdd-only）；完成后派**一个独立 review 面板**（见 §5）。
-- **standard**：协调者 `run-create` → `task-create --deps` 建 DAG → `task-list --ready` → 并行 `worker-start --task <id> --agent <base> --model <model>`（按缝位配置）派**票面板工人**跑 `pimplement`；wake 推进 frontier。
+- **light**：协调者本会话 call `pimplement`（tdd-only）；**Route 时趁澄清新鲜写 acceptance plan.md（`.scratch/<feature>/acceptance-plan.md`）**供 accept 读；完成后派**一个独立 review 面板**（§5）。
+- **standard**：协调者 `run-create` → `task-create --deps` 建 DAG → `task-list --ready` → 并行 `worker-start --task <id> --agent <base> --model <model>`（按 `docs/agents/orca-seams.md` 缝位配置）派**票面板工人**跑 `pimplement`；wake 推进 frontier。
 
-面板=structured chat：agent 的 Chat|CLI 设置 + env 端点配置（claude 走 `~/.claude/settings.json` env；zcode 走自身配置）。**zcode 不接受 `--model`**（硬拒）：zcode 缝换模型改 zcode 配置或该缝派 claude/codex 工人。
+面板与模型路由约束（structured chat=Chat|CLI 设置+env 端点、zcode `--model` 硬拒及绕法、accept 底座工具要求）**单一来源见 `docs/agents/orca-seams.md`「模型路由/约束」**，不在此复述。
 
 ## 5. 外置缝（review / accept / retro）
 
 - **code-review**：standard=**全部票落地 integration 后 ONE 次** integration review 面板（call 原 `code-review`），findings 派**单个 fix 工人**修；light=pimplement 后一次 review 面板。≤2 轮。
-- **accept**：独立面板工人 call 原 `accept`（或按 acceptance profile 用 `verify`），读 spec（standard）/ Route 写的 plan.md（light）；真环境验收；≤2 轮修复。accept 缝底座须有 shell+ego-browser。
-- **retro**：可选面板。
+- **accept**：独立面板工人 call 原 `accept`（或按 acceptance profile 用 `verify`），读 spec（standard）/ Route 写的 acceptance-plan.md（light）；真环境验收；≤2 轮修复。底座工具约束见 `docs/agents/orca-seams.md`。
+- **retro**：可选面板，call 原 `retro`。
 
 ## 6. 人在环
 
@@ -58,3 +62,5 @@ salvage `.scratch/<feature>/` 回主 checkout → 主 checkout merge 本 run 分
 ## 9. 非侵入红线
 
 永不修改原 ship/implement/implement-spec/accept/grill-with-docs；只读 call。新族仅 pgrill-with-docs + pimplement，源 `~/.agents/skills`、不软链、不补 zcode 链。
+
+**镜像编辑注记**：pimplement 镜像 implement 的 machinery/tdd 段；pgrill 引用 ship 节名锚点（Prime directive / Preflight / Route / Isolation / Deliver / Failure budgets / Stopping）。上游 ship/implement 改版重排这些节名时，同步检查本族（CUSTOM.md 有锚点注记）。

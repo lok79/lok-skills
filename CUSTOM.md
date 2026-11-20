@@ -13,6 +13,8 @@
 - gen-image
 - orca-cli
 - orchestration
+- pgrill-with-docs
+- pimplement
 - probe
 - ship
 - show-me
@@ -54,6 +56,7 @@
 - 消费面 2：执行端安装 = 复制 4 个裁剪子目录（`executing-plans`、`test-driven-development`、`verification-before-completion`、`systematic-debugging`）到执行端自己的 skills 目录。**不用任何端的 marketplace/plugin 安装**——那会装全套 + using-superpowers 强制网，违背裁剪原则
 - 执行端合格判据：skills 目录机制 / 能跑 shell / 同机文件系统 / 便宜档位 / fresh 会话。满足即合格，不锁定产品
 - `zhip` 引用 ship 的节名锚点（Preflight / Route / Prime directive / Accept / Deliver / Failure budgets / Stopping）；`fhip` 引用同批锚点 + Isolation / Run / Narration（其 Accept 被 verify 覆写）：ship 改版重排这些节名时，同步检查 zhip 和 fhip 的引用
+- `pgrill-with-docs` 引用 ship 同批锚点 + Isolation；`pimplement` 镜像 implement 的 machinery/tdd 段（非侵入平行族既定代价）：ship/implement 改版时同步检查 pgrill/pimplement 的镜像与锚点
 
 ## 刷新流程（替代旧的"备份→全目录覆盖"）
 
