@@ -33,7 +33,7 @@ Write it to `docs/agents/acceptance.md`:
 ## 缝登记 — each seam: kind, how driven, what asserted, first-class or foreground(off; edit to foreground-enabled to turn one on)
 ## 副作用面 — what verification may write; what is read-only
 ## 性能口径 — timing method per seam; thresholds; or 未定
-## 够不着清单 — what no seam reaches; the user verifies manually
+## 够不着清单 — what no seam reaches; recorded as an honest boundary (no manual verification asked of the user)
 ```
 
 ## Drift repair

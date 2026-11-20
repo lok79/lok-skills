@@ -18,9 +18,9 @@ Entry: fhip passes the spec path; never guess it. Standalone, do not guess by fi
 
 Sort every acceptance clause into:
 
-- **Already verified**: covered by unit tests / code-review — do not rerun; list names only.
+- **Already verified**: covered by runtime verification (unit / integration tests) — do not rerun; list names only. A ticket only statically reviewed by code-review (no runtime test) is NOT already verified: route it to the wire seam if reachable, else Unreachable.
 - **Needs the real environment**: drive the registered seams below.
-- **Unreachable**: no registered seam reaches it (hardware, physical devices, foreground-only surfaces not enabled in the profile) → record as「无可自动化验收项」, declared for the user to verify manually. Never force-fit.
+- **Unreachable**: no registered seam reaches it (hardware, physical devices, foreground-only surfaces not enabled in the profile, or business logic the wire seam cannot reach) → record as「无可自动化验收项」, an honest boundary record; never ask the user to verify manually. Never force-fit.
 
 ## Seams
 
@@ -28,7 +28,7 @@ The profile's 缝登记 is the single source of what gets driven. The catalog of
 
 - **Wire seam** (service): replay real historical requests (from the request logs the profile registers) or construct per contract; assert the response body / observable state.
 - **CLI seam**: run the real command; assert stdout/stderr, exit code, artifact files.
-- **Surface seam** (pages/UI): screenshot via the environment's headless tooling — the built-in browser for web (navigate directly to the target route; obtain the login state per the profile's credential convention and inject it the way this stack persists sessions; never click through login forms or menus); an emulator without opening its window where probing showed it available. Compare rendered screenshot vs prototype (or before/after with the spec's expected-appearance description when no prototype): visual match, not pixel diff; differences as a text list. Interaction behavior (what a click brings up) is NOT in scope — user verifies by hand.
+- **Surface seam** (pages/UI): a smoke-level screenshot pass via the headless screenshot tooling the profile registers (web: built-in browser, or ego-browser if the profile probed it; mobile: an emulator without opening its window where probing showed it available; desktop: the target window). **One landing-state shot per surface** (web route / emulator screen / desktop window); do not screenshot every user story. Obtain the login state per the profile's credential convention and inject it the way this stack persists sessions, then navigate directly to the target; never click through login forms or menus. Presentational interactions (modal/panel/tab/drawer) are not clicked by default; only when the interaction itself is the change's core acceptance target is one representative opened-state shot allowed. **Business-behavior correctness (what a click does to data/state, as opposed to pure presentation) is never evidenced by screenshots** — wire seam only, or「无可自动化验收项」. Comparison: with a prototype, coarse-grained match of big-block layout / key elements present / obvious misalignment; detail differences (minor color/radius deltas) recorded as findings, not iterated to pixel-match and not burning the fix budget; only a whole missing block/feature is a failure walking the budget. Without a prototype, judge against an explicit-bug checklist (obvious overlap/occlusion, text overflowing and breaking other elements beyond intended ellipsis, broken image/icon showing alt text, whole block missing/blank, font fallback to default serif, obvious misalignment) — "is it broken", not "is it pretty"; no subjective aesthetic judgment. Coverage: i18n defaults to the main language only (other languages' copy correctness is Already-verified via a unit / key-consistency-check script, not code-review alone); multi-entry defaults to one representative entry (others text-declared as present); full coverage only when the spec explicitly demands it.
 - **API seam** (library): consume the built artifact in a scratch consumer project; assert public-API behavior.
 - **State observation**: read-only queries on the stores/paths the profile registers.
 
@@ -62,3 +62,4 @@ A failure is a real finding from the real environment: record the evidence hones
 - Business data read-only; the only allowed writes are the profile's declared temporary-credential convention and the runtime's own operational logs
 - No fabricated business data; runtimes outside the acceptance chain are never restarted
 - No push; never touch the user's uncommitted files; nothing occupies the user's screen unless the profile enabled that seam
+- Business-behavior correctness (as opposed to pure presentation/style) is never evidenced by screenshots — wire-seam assertions only, or「无可自动化验收项」
