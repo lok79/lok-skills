@@ -27,7 +27,7 @@
 
 ## 约束（单一来源，pgrill/acceptance 指向此处）
 
-- **claude 吃 `--model`/`--effort`**；`--effort` 必须与 `--model` 同传。抓包定论：CLI 发 `output_config.effort`+`thinking.adaptive`。**智谱兼容层声明映射 effort**（low→low、medium/high→high、xhigh/max→max，默认max）；**百炼逐模型映射：qwen4-max 生效，qwen4-max-preview 与 deepseek-v4.1-flash-1017 未列→疑似忽略**。glm-5.3/flash 强制思考不可关、native 仅 low/high/max；budget_tokens 弃用（glm 忽略）。**qwen4-max-preview 预览期至 2026-11-25 下线**，front/review 建议换 qwen4-max。三层证据见 `research/effort-final-evidence-2026-11.md`。
+- **claude 吃 `--model`/`--effort`**；`--effort` 必须与 `--model` 同传。抓包定论：CLI 发 `output_config.effort`+`thinking.adaptive`。**智谱兼容层声明映射 effort**（low→low、medium/high→high、xhigh/max→max，默认max）；**百炼逐模型映射：qwen4-max 生效，qwen4-max-preview 与 deepseek-v4.1-flash-1017 未列→疑似忽略**。glm-5.3/flash 强制思考不可关、native 仅 low/high/max；budget_tokens 弃用（glm 忽略）。**qwen4-max-preview 预览期至 2026-11-25 下线**；用户定：front/review **保留 preview**（qwen4-max 太贵），接受其 effort 疑似无效；11-25 下线时再定 fallback。三层证据见 `research/effort-final-evidence-2026-11.md`。
 - **zcode 不接受 launch-time `--model`/`--effort`**；国内 zcode 在 Orca 开不出会话（Orca=国际版 zcode）；zcode-cn 适配器暂不造。
 - **claude 在 Orca 的 chat 面板面需官方账号**（`orca account add`=claude login）；当前用 **terminal 面**（`--surface terminal`，env 端点 API 模式即通）。
 - **accept 缝底座必须有 shell + ego-browser 工具**。
