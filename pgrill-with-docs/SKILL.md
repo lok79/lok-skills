@@ -37,7 +37,7 @@ trivial（纯内容）/ light（单会话）/ standard（多会话跨层）/ way
 - **前段一体**：grill→to-spec→to-tickets 在**本会话同一底座+模型**不间断上下文完成（light 延伸到 pimplement）。
 - **trivial**：协调者自己改+直接看；**无 review**；**accept 跳过**；commit+短报告。
 - **light**：协调者本会话 call `pimplement`（tdd-only）；**Route 时趁澄清新鲜写 acceptance plan.md（`.scratch/<feature>/acceptance-plan.md`，须带验收断言）**供 accept 读；完成后派**一个独立 review 面板**（§5）。
-- **standard**：协调者 `run-create` → `task-create --deps` 建 DAG → `task-list --ready` → 并行 `worker-start --task <id> --agent <base> --model <model>`（按 `docs/agents/orca-seams.md` 缝位配置）派**票面板工人**跑 `pimplement`；wake 推进 frontier。
+- **standard**：协调者 `run-create` → `task-create --deps` 建 DAG → `task-list --ready` → 并行 `worker-start --task <id> --agent <base> --model <model> --effort <effort>`（三元组按 `docs/agents/orca-seams.md` 缝位配置；zcode 缝不传 --model/--effort）派**票面板工人**跑 `pimplement`；wake 推进 frontier。
 
 面板与模型路由约束（structured chat=Chat|CLI 设置+env 端点、zcode `--model` 硬拒及绕法、accept 底座工具要求）**单一来源见 `docs/agents/orca-seams.md`「模型路由/约束」**，不在此复述。
 
