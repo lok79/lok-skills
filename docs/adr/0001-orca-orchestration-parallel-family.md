@@ -14,4 +14,4 @@
 - 新族只读组合原技能（grill/to-spec/to-tickets/code-review/accept/tdd/retro），原链零改动。
 - 协调者 = Orca 内 agent 面板会话（wake 自动推进）；外部脚本协调（--from + 只读 poll）仅 fallback。
 - 缝位配置 `docs/agents/orca-seams` 用户可编辑；模型路由起步 Orca agent profiles，聚合网关后置。
-- 新技能不软链到 claude/zcode（避免两份一样的），仅 `~/.agents/skills`（Orca 可见）；不补 zcode 缺失软链。
+- 新技能源仅 `~/.agents/skills`；**claude 侧补相对软链**（`~/.claude/skills`，既有拓扑，使 claude/Orca 可 invoke；2026-11-20 修订：原"不软链"本意仅指 zcode 侧）；**zcode 侧不软链**、不补 zcode 缺失链。

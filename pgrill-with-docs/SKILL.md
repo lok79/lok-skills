@@ -62,6 +62,6 @@ salvage `.scratch/<feature>/` 回主 checkout → 主 checkout merge 本 run 分
 
 ## 9. 非侵入红线
 
-永不修改原 ship/implement/implement-spec/accept/grill-with-docs；只读 call。新族仅 pgrill-with-docs + pimplement，源 `~/.agents/skills`、不软链、不补 zcode 链。
+永不修改原 ship/implement/implement-spec/accept/grill-with-docs；只读 call。新族仅 pgrill-with-docs + pimplement，源 `~/.agents/skills`；**claude 侧相对软链**（`~/.claude/skills`，既有拓扑，使 claude/Orca 可 invoke）；**zcode 侧不软链**、不补 zcode 缺失链。
 
 **镜像编辑注记**：pimplement 镜像 implement 的 machinery/tdd 段；pgrill 引用 ship 节名锚点（Prime directive / Preflight / Route / Isolation / Deliver / Failure budgets / Stopping）。上游 ship/implement 改版重排这些节名时，同步检查本族（CUSTOM.md 有锚点注记）。
