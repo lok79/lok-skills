@@ -28,6 +28,8 @@ A **seam** is the public boundary you test at: the interface where you observe b
 
 "No test infrastructure" is not a reason to go lower. When the framework ships test scaffolding (base test classes, test configuration), standing up the first high-seam test is part of the change; later changes extend it.
 
+"No test infrastructure" is not a license to fake a seam either. For a frontend ticket with no component-test framework, "render the page and eyeball it" (with screenshots) is not a seam — it is a manual visual check, and it belongs to `/accept`'s smoke-level screenshot pass, not to this ticket's red → green loop. Do not screenshot during development to fill the gap. Record the ticket honestly: "no automated test seam; logic correctness reviewed statically by code-review only, not runtime-verified." Code-review is static review, not verification — it catches some logic errors but not all (especially timing/race conditions); never let "code-review passed" read as "logic verified."
+
 Ask: "What's the public interface, and which seams should we test?" Give each proposed seam a one-line note on what it catches and what it misses.
 
 When the shape of that interface is itself in question (how deep the module is, where the seam belongs, what the interface should expose), call the Skill tool with "codebase-design" for the vocabulary. It is the shared source of the module, interface, depth, seam, adapter, leverage and locality terms, and it is a reference to consult, not a session to run.
