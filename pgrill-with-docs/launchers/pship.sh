@@ -40,6 +40,10 @@ echo "协调者终端: $HANDLE"
 if "$O" terminal read --terminal "$HANDLE" --json 2>/dev/null | grep -qiE "trust|safety check"; then
   "$O" terminal send --terminal "$HANDLE" --text "" --enter --json >/dev/null 2>&1 || true
   "$O" terminal wait --terminal "$HANDLE" --for tui-idle --timeout-ms 30000 --json >/dev/null 2>&1 || true
+  if "$O" terminal read --terminal "$HANDLE" --json 2>/dev/null | grep -qiE "trust|safety check"; then
+    echo "协调者已起: $HANDLE ；遇 trust 对话框：请在该终端按 Enter 信任后输入 /pgrill-with-docs $REQ"
+    exit 0
+  fi
 fi
 "$O" terminal send --terminal "$HANDLE" --text "/pgrill-with-docs $REQ" --enter --json >/dev/null 2>&1 || \
   echo "投递失败：请手动在协调者终端输入 /pgrill-with-docs $REQ"
