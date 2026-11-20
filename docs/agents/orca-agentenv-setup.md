@@ -4,7 +4,12 @@
 > 原理：Orca settings `agentDefaultEnv.claude` 在 PTY spawn 时后展开、覆盖继承 env（cc-switch 代理 base_url + 置空模型 env）。对三种启动一致生效。**新终端生效；已开终端需重开。**
 > 不碰 cc-switch（免波及桌面 App）、不直写 profile-state.db（坏库风险）。
 
-## 步骤
+## 步骤（推荐 B：命令覆盖，零密钥入 UI）
+1. Orca → Settings → Agents → Claude → **命令**框改为 `/Users/lok/.agents/skills/pgrill-with-docs/launchers/run-bailian.sh`（wrapper 自带端点+token+默认模型映射）；模型/Effort/环境留默认；CLI 面保持。
+2. 保存 → **新开** claude tab 发"回复 ok"验证回 ok（旧终端重开才生效）。
+3. 跨智谱缝仍由 pgrill wrapper 覆盖，不受此默认影响。
+
+## 备选 A：环境框加键（agentDefaultEnv）
 1. Orca → **Settings → Agents → Claude → 环境变量编辑器**（agentDefaultEnv）。
 2. 加/改以下键（token 从 `~/.zcode/v2/provider_config.json` → providerRules[providerId=qwen-token-plan-team-cn].config.access.apiKey 抄，勿外泄）：
    - `ANTHROPIC_BASE_URL` = `https://token-plan.cn-beijing.maas.aliyuncs.com/apps/anthropic`
