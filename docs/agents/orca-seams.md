@@ -18,7 +18,7 @@
 - **claude-bailian**：`ANTHROPIC_BASE_URL=https://token-plan.cn-beijing.maas.aliyuncs.com/apps/anthropic`；token 源=`~/.zcode/v2/provider_config.json` → providerRules[providerId=qwen-token-plan-team-cn].config.access.apiKey。
 - **claude-zhipu**：`ANTHROPIC_BASE_URL=https://open.bigmodel.cn/api/anthropic`；token 源=`~/.claude/settings.json` → env.ANTHROPIC_AUTH_TOKEN。
 
-**跨两家机制（实测定论）**：Orca 给 claude 注入 `ANTHROPIC_BASE_URL=http://127.0.0.1:15721/claude-desktop`（绑桌面 App 登录态的本地代理）且置空 `ANTHROPIC_DEFAULT_*_MODEL`；user/项目级 settings 均被进程 env 压过、**无效**（实测 Not logged in）。故用 **env 前缀 wrapper 启动**：`pgrill-with-docs/launchers/run-zhipu.sh` / `run-bailian.sh`（export 两家端点+token 后 exec claude），并**显式 `--model`**（否则百炼 Model not exist）。派票经 `terminal create --command <wrapper>` + `worker-start --terminal` 收编；`--model/--effort` 走 wrapper 命令行（Orca `--model` 不与 `--terminal` 同用）。零新增常驻服务。`unrecognized_model` 警告 benign（context window 按 200k 假设，可选配置修正）。
+**默认端点（a 机制）**：Orca settings `agentDefaultEnv.claude`（UI: Settings→Agents→Claude→环境变量）设百炼 preview 端点+token+模型映射；PTY spawn 后展开覆盖继承 env，agent tab/launch/worker-start 一致生效；步骤见 `docs/agents/orca-agentenv-setup.md`。**跨缝覆盖机制（实测定论）**：15721 代理实为 **cc-switch**（Orca 继承其 env：base_url=127.0.0.1:15721/claude-desktop + 置空 `ANTHROPIC_DEFAULT_*_MODEL`）；user/项目级 settings 被进程 env 压过、**无效**（实测 Not logged in）。跨缝/跨两家用 **env 前缀 wrapper**：`launchers/run-zhipu.sh` / `run-bailian.sh`（export 两家端点+token 后 exec claude）+ **显式 `--model`**（否则百炼 Model not exist）；派票经 `terminal create --command <wrapper>` + `worker-start --terminal` 收编（`--model/--effort` 走 wrapper 命令行，Orca `--model` 不与 `--terminal` 同用）。点火入口 `launchers/pship.sh`（含 auth 自检）。零新增常驻服务。`unrecognized_model` 警告 benign（context window 按 200k 假设）。
 
 ## 模型路由
 

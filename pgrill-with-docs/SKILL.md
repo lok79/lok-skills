@@ -21,6 +21,7 @@ matt 链的 Orca 编排平行入口：**一个技能承担澄清 + 协调 + 派�
 
 - 无 `docs/agents/issue-tracker.md` → stop，告诉用户跑 `/setup-matt-pocock-skills`。
 - 无 `docs/agents/acceptance.md` 或缺关键事实 → call `survey` 补 profile（不打断）。
+- **auth 自检**：按缝位默认 profile 的 wrapper 跑一次 `-p "只回复 ok"`；失败/未回 ok → stop，提示"用 pship 入口 / 检查端点 token / 检查网络"，不自动重试、不偷换 profile。
 - 开放问题未决 → refuse，列缺项交还。
 - 关键假设 → 分钟级实探 scouting，结果记 spec；失败假设交还用户。
 
@@ -39,7 +40,7 @@ trivial（纯内容）/ light（单会话）/ standard（多会话跨层）/ way
 - **light**：协调者本会话 call `pimplement`（tdd-only）；**Route 时趁澄清新鲜写 acceptance plan.md（`.scratch/<feature>/acceptance-plan.md`，须带验收断言）**供 accept 读；完成后派**一个独立 review 面板**（§5）。
 - **standard**：协调者 `run-create` → `task-create --deps` 建 DAG → `task-list --ready` → 并行 `terminal create --command '<profile wrapper> --model <model> --effort <effort>' --worktree new-top-level --repo …` 起工人终端，再 `worker-start --task <id> --terminal <handle>` 收编（--model/--effort 走 wrapper 命令行，因 Orca --model 不与 --terminal 同用；三元组按 `docs/agents/orca-seams.md`）派**票面板工人**跑 `pimplement`；wake 推进 frontier。
 
-面板与模型路由约束（structured chat=Chat|CLI 设置+env 端点、zcode `--model` 硬拒及绕法、accept 底座工具要求）**单一来源见 `docs/agents/orca-seams.md`「模型路由/约束」**，不在此复述。当前底座统一 **claude、terminal 面**（chat 面需官方账号）；跨两家端点靠 **env 前缀 wrapper 启动**（`launchers/run-zhipu.sh`/`run-bailian.sh`，覆盖 Orca 桌面代理 base_url）+ **显式 --model**（Orca 置空默认模型 env）；项目级 settings 无效（被 Orca 进程 env 压过），勿用。
+面板与模型路由约束（structured chat=Chat|CLI 设置+env 端点、zcode `--model` 硬拒及绕法、accept 底座工具要求）**单一来源见 `docs/agents/orca-seams.md`「模型路由/约束」**，不在此复述。当前底座统一 **claude、terminal 面**（chat 面需官方账号）。**默认端点**经 Orca `agentDefaultEnv.claude`（UI 设百炼 preview，三种启动一致生效，步骤见 `docs/agents/orca-agentenv-setup.md`）；**跨缝/跨两家**靠 env 前缀 wrapper（`launchers/run-zhipu.sh`/`run-bailian.sh`，覆盖 cc-switch 代理继承 env）+ 显式 --model；项目级 settings 无效（被进程 env 压过），勿用。点火入口 `launchers/pship.sh`。
 
 ## 5. 外置缝（review / accept / retro）
 
