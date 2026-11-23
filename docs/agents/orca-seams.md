@@ -4,14 +4,16 @@
 
 **底座统一 claude、terminal 面**（Orca chat 面板面需官方账号，当前不可用；zcode 国内版开不出、zcode-cn 暂不造）。profile 决定端点（跨百炼/智谱两家），model/effort 按缝配。
 
-**协调者（前段一体）配置：profile=claude-bailian、model=qwen4-max-preview、effort=high。前段一体不是缝**（GLOSSARY），此为协调者会话配置，不进下表；下表仅四条可换缝。
+**全百炼（2026-11-23 起：智谱 Coding Plan 额度耗尽，全链改百炼 Token Plan）**。协调者（前段一体）配置：profile=claude-bailian、model=qwen4-max-preview、effort=high。前段一体不是缝（GLOSSARY），此为协调者会话配置，不进下表；下表仅四条可换缝。
 
 | 缝 | profile | model | effort | 备注 |
 |---|---|---|---|---|
-| ticket（票级 implement） | claude-zhipu | glm-5.3-flash | low | 仅 standard；可逐票覆盖 |
+| ticket（票级 implement） | claude-bailian | qwen4-max-preview | high | 仅 standard；可逐票覆盖；effort 疑似无效接受（靠 preview 默认 xhigh 深度） |
 | review | claude-bailian | qwen4-max-preview | medium | 新鲜眼睛；standard 全票后 ONE 次 integration |
-| accept | claude-zhipu | glm-5.3-flash | low | 底座工具要求见「约束」 |
-| retro | claude-zhipu | glm-5.3 | high | 可选 |
+| accept | claude-bailian | deepseek-v4.1-flash-1017 | low | 省额度；effort 疑似忽略接受；底座工具要求见「约束」 |
+| retro | claude-bailian | deepseek-v4.1-flash-1017 | low | 省额度 |
+
+**11-25 下线共担**：front/review/ticket 三缝同用 preview，2026-11-25 预览期结束一起换 fallback（qwen4-max 或 flash，届时定）；run 若拖过该日需中途切换。
 
 ## profiles（端点来源，运行时读，不复制 token 到持久新文件）
 
