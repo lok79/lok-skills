@@ -20,7 +20,19 @@
 - **claude-bailian**：`ANTHROPIC_BASE_URL=https://token-plan.cn-beijing.maas.aliyuncs.com/apps/anthropic`；token 源=`~/.zcode/v2/provider_config.json` → providerRules[providerId=qwen-token-plan-team-cn].config.access.apiKey。
 - **claude-zhipu**：`ANTHROPIC_BASE_URL=https://open.bigmodel.cn/api/anthropic`；token 源=`~/.claude/settings.json` → env.ANTHROPIC_AUTH_TOKEN。
 
-**载体（orca-ship，11-24 定稿）**：协调者=**bot chat**（自带编排身份，**无 mailbox**）；工人=**预建可复用工人 bot**（owner 直接给正在跑的工人发消息=wake/插话）；读完整输出=orca-computer-use tree；**通信规范见 orca-ship §9**（指针 brief/摘要回传，禁贴全文）。**全局配置零写入**。旧 A/B 档（plain chat+mailbox / terminal+cc-switch 匹配）归档为探索资产，非日常依赖。**跨缝覆盖机制（实测定论）**：15721 代理实为 **cc-switch**（Orca 继承其 env：base_url=127.0.0.1:15721/claude-desktop + 置空 `ANTHROPIC_DEFAULT_*_MODEL`）；user/项目级 settings 被进程 env 压过、**无效**（实测 Not logged in）。跨缝/跨两家用 **env 前缀 wrapper**：`launchers/run-zhipu.sh` / `run-bailian.sh`（export 两家端点+token 后 exec claude）+ **显式 `--model`**（否则百炼 Model not exist）；派票经 `terminal create --command <wrapper>` + `worker-start --terminal` 收编（`--model/--effort` 走 wrapper 命令行，Orca `--model` 不与 `--terminal` 同用）。点火入口 `launchers/pship.sh`（含 auth 自检）。零新增常驻服务。`unrecognized_model` 警告 benign（context window 按 200k 假设）。
+**载体（orca-ship，11-24 定稿）**：协调者=**bot chat**（自带编排身份，**无 mailbox**）；工人=**预建可复用工人 bot**（owner 直接给正在跑的工人发消息=wake/插话）；读完整输出=orca-computer-use tree；**通信规范见 orca-ship §9**（指针 brief/摘要回传，禁贴全文）。**全局配置零写入**。旧 A/B 档（plain chat+mailbox / terminal+cc-switch 匹配）归档为探索资产，非日常依赖。
+
+## 载体 bot roster 与独立性约束（配置层；orca-ship SKILL.md 不动）
+
+| 角色 | bot | 模型/effort | 职责 |
+|---|---|---|---|
+| 协调者 | probe-bot | qwen4-max-preview / high | 委托原链澄清/派票/串联验收/Deliver；§9 收发；gate 仅真决策 |
+| 票工人 | worker-bot-1 / worker-bot-2（复用跨票） | 缝位 ticket 值 | 按 brief 跑 pimplement（tdd-only），commit 本 worktree 分支，§9 回传 |
+| 审查 | review-bot（复用跨单） | qwen4-max-preview / medium | 独立跑原 code-review（两轴）审 integration diff，回传 findings+verdict |
+| 验收 | accept-bot（复用跨单） | deepseek-v4.1-flash-1017 / low | 独立跑原 accept（红线/证据/分账/性能两档），回传验收记录路径+结论一行 |
+| retro | 复用 review-bot 或协调者事后 | — | 可选 |
+
+**独立性硬约束**：review/accept **必须在独立预建 bot 会话跑**（review-bot/accept-bot），**禁复用工人会话或协调者会话自审自验**（新鲜眼睛+独立上下文+外置缝立场）。此约束在配置层生效，orca-ship SKILL.md 保持已审版本不动。**跨缝覆盖机制（实测定论）**：15721 代理实为 **cc-switch**（Orca 继承其 env：base_url=127.0.0.1:15721/claude-desktop + 置空 `ANTHROPIC_DEFAULT_*_MODEL`）；user/项目级 settings 被进程 env 压过、**无效**（实测 Not logged in）。跨缝/跨两家用 **env 前缀 wrapper**：`launchers/run-zhipu.sh` / `run-bailian.sh`（export 两家端点+token 后 exec claude）+ **显式 `--model`**（否则百炼 Model not exist）；派票经 `terminal create --command <wrapper>` + `worker-start --terminal` 收编（`--model/--effort` 走 wrapper 命令行，Orca `--model` 不与 `--terminal` 同用）。点火入口 `launchers/pship.sh`（含 auth 自检）。零新增常驻服务。`unrecognized_model` 警告 benign（context window 按 200k 假设）。
 
 ## 模型路由
 
